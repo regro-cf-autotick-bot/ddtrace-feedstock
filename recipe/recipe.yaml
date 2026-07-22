@@ -17,7 +17,7 @@ build:
   number: 0
   script:
     - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-    - cd src/core/
+    - cd src/native
     - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
   python:
     entry_points:
