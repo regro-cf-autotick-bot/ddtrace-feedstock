@@ -1,13 +1,14 @@
+schema_version: 1
+
 context:
-  name: ddtrace
   version: "4.11.1"
 
 package:
-  name: ${{ name|lower }}
+  name: ddtrace
   version: ${{ version }}
 
 source:
-  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/ddtrace-${{ version }}.tar.gz
+  url: https://pypi.org/packages/source/d/ddtrace/ddtrace-${{ version }}.tar.gz
   sha256: fa28db048830489e080b64bdcdd56ef31001d4dc6bd9f5ff3f9dca744236ce69
   patches:
     - 001-patch-out-cmake-build-dep.patch
@@ -16,16 +17,12 @@ build:
   number: 0
   script:
     - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-    - if: unix
-      then:
-        - cd src/core/
-        - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-      else:
-        - cd src\core\
-        - cargo-bundle-licenses --format yaml --output ..\..\THIRDPARTY.yml
+    - cd src/core/
+    - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
   python:
     entry_points:
       - ddtrace-run = ddtrace.commands.ddtrace_run:main
+      - _dd_crashtracker_receiver = ddtrace.commands._dd_crashtracker_receiver:main
 
 requirements:
   build:
@@ -71,7 +68,8 @@ tests:
 about:
   summary: Datadog APM client library
   license: 0BSD AND Apache-2.0 AND BSD-3-Clause
-  homepage: https://ddtrace.readthedocs.io/
+  homepage: https://github.com/DataDog/dd-trace-py
+  documentation: https://ddtrace.readthedocs.io/en/stable/
   license_file:
     - LICENSE
     - LICENSE.BSD3
