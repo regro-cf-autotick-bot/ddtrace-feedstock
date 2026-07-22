@@ -1,6 +1,6 @@
 context:
   name: ddtrace
-  version: 2.20.0
+  version: "4.11.1"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/ddtrace-${{ version }}.tar.gz
-  sha256: f185c6dd88cd04884f0ad27b37f14d837274e8fc4dc43407781334d92d41c3bc
+  sha256: fa28db048830489e080b64bdcdd56ef31001d4dc6bd9f5ff3f9dca744236ce69
   patches:
     - 001-patch-out-cmake-build-dep.patch
 
@@ -56,16 +56,10 @@ requirements:
     - pip
   run:
     - python
-    - bytecode >=0.13.0
-    - envier >=0.5,<1.dev0
-    - if: match(python, ">=3.13")
-      then: legacy-cgi >=2.0.0
-    - opentelemetry-api >=1
-    - protobuf >=3
-    - typing_extensions
-    - xmltodict >=0.12
-    - wrapt >=1
-    - pip
+    - bytecode >=0.17.0
+    - envier >=0.6.1,<1.dev0
+    - opentelemetry-api >=1,<2
+    - wrapt >=1,!=2.2.0,<3
 
 tests:
   - python:
