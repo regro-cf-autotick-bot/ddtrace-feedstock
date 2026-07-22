@@ -11,7 +11,7 @@ source:
   url: https://pypi.org/packages/source/d/ddtrace/ddtrace-${{ version }}.tar.gz
   sha256: fa28db048830489e080b64bdcdd56ef31001d4dc6bd9f5ff3f9dca744236ce69
   patches:
-    - 001-patch-out-cmake-build-dep.patch
+    - patches/001-patch-out-cmake-build-dep.patch
 
 build:
   number: 0
