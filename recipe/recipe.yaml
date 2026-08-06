@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.11.1"
+  version: "4.12.2"
 
 package:
   name: ddtrace
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/d/ddtrace/ddtrace-${{ version }}.tar.gz
-  sha256: fa28db048830489e080b64bdcdd56ef31001d4dc6bd9f5ff3f9dca744236ce69
+  sha256: a3cfa19ebd6b5c0f7c70c16da29d7bf5f50c0ab014ad3dc77e9c06a424ca2cfb
   patches:
     - patches/001-patch-out-cmake-build-dep.patch
 
