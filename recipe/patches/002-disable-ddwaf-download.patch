@@ -1,0 +1,36 @@
+diff --git a/ddtrace/internal/settings/asm.py b/ddtrace/internal/settings/asm.py
+index 9b10dad22e..d3067febe9 100644
+--- a/ddtrace/internal/settings/asm.py
++++ b/ddtrace/internal/settings/asm.py
+@@ -56,9 +56,7 @@ def build_libddwaf_filename() -> str:
+             ARCHI = "x86"
+     TRANSLATE_ARCH = {"amd64": "x64", "i686": "x86_64", "x86": "win32"}
+     ARCHITECTURE = TRANSLATE_ARCH.get(ARCHI, ARCHI)
+-    return os.path.join(
+-        _DIRNAME, "..", "appsec", "_ddwaf", "libddwaf", ARCHITECTURE, "lib", "libddwaf." + FILE_EXTENSION
+-    )
++    return "libddwaf." + FILE_EXTENSION
+ 
+ 
+ class ASMConfig(DDConfig):
+@@ -104,7 +102,7 @@ class ASMConfig(DDConfig):
+     # updated in API Manager enable/disable
+     _api_security_active = False
+     _asm_libddwaf = build_libddwaf_filename()
+-    _asm_libddwaf_available = os.path.exists(_asm_libddwaf)
++    _asm_libddwaf_available = True
+     _ddwaf_version: str = "unloaded"
+ 
+     _waf_timeout = DDConfig.var(
+diff --git a/setup.py b/setup.py
+index 13c8bd9442..caac8e6c84 100644
+--- a/setup.py
++++ b/setup.py
+@@ -667,7 +667,6 @@ class LibraryDownloader(BuildPyCommand):
+         # version changes even when CleanLibraries.remove_artifacts() is skipped.
+         if not CustomBuildExt.INCREMENTAL:
+             CleanLibraries.remove_artifacts()
+-        LibDDWafDownload.run()
+         BuildPyCommand.run(self)
+         self._strip_build_artifacts()
+ 

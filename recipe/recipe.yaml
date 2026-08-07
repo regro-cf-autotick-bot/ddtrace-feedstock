@@ -12,6 +12,7 @@ source:
   sha256: a3cfa19ebd6b5c0f7c70c16da29d7bf5f50c0ab014ad3dc77e9c06a424ca2cfb
   patches:
     - patches/001-patch-out-cmake-build-dep.patch
+    - patches/002-disable-ddwaf-download.patch
 
 build:
   number: 0
@@ -57,11 +58,14 @@ requirements:
     - envier >=0.6.1,<1.dev0
     - opentelemetry-api >=1,<2
     - wrapt >=1,!=2.2.0,<3
+    - libddwaf
 
 tests:
   - python:
       imports:
         - ddtrace
+        # test that libddwaf.so is loaded correctly
+        - ddtrace.appsec._ddwaf
   - script:
       - ddtrace-run --help
 
