@@ -1,0 +1,54 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index 5e1201a..c54326b 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,7 +1,6 @@
+ [build-system]
+ requires = [
+     "cython",
+-    "cmake>=3.24.2,<3.28",
+     "setuptools-rust<2",
+     "patchelf>=0.17.0.0; sys_platform == 'linux'",
+ ]
+diff --git a/setup.py b/setup.py
+index c5b8439..1d1ee73 100644
+--- a/setup.py
++++ b/setup.py
+@@ -21,8 +21,6 @@ from setuptools_rust import Binding
+ from setuptools_rust import RustExtension
+ from setuptools_rust import build_rust
+ 
+-import cmake
+-
+ 
+ from setuptools import Distribution, Extension, find_packages, setup  # isort: skip
+ from setuptools.command.build_ext import build_ext  # isort: skip
+@@ -997,7 +995,7 @@ class CustomBuildExt(build_ext):
+ 
+             install_args = [f"--config {COMPILE_MODE}"]
+ 
+-            cmake_command = (Path(cmake.CMAKE_BIN_DIR) / "cmake").resolve()  # type: ignore[attr-defined]
++            cmake_command = "cmake"
+             subprocess.run([cmake_command, *cmake_args], cwd=cmake_build_dir, check=True)
+             subprocess.run([cmake_command, "--build", ".", *build_args], cwd=cmake_build_dir, check=True)
+             subprocess.run([cmake_command, "--install", ".", *install_args], cwd=cmake_build_dir, check=True)
+@@ -1036,7 +1034,7 @@ class CustomBuildExt(build_ext):
+         cmake_build_dir = Path(self.build_lib.replace("lib.", "cmake."), f"{dep.name}_build").resolve()
+         cmake_build_dir.mkdir(parents=True, exist_ok=True)
+ 
+-        cmake_command = (Path(cmake.CMAKE_BIN_DIR) / "cmake").resolve()  # type: ignore[attr-defined]
++        cmake_command = "cmake"
+ 
+         cmake_args = self._base_cmake_args() + [
+             f"-S{dep.cmake_dir}",
+@@ -1331,9 +1329,7 @@ class CustomBuildExt(build_ext):
+                 "-DCMAKE_C_FLAGS_%s=-O0" % ext.build_type.upper(),
+                 "-DCMAKE_CXX_FLAGS_%s=-O0" % ext.build_type.upper(),
+             ]
+-        cmake_command = (
+-            Path(cmake.CMAKE_BIN_DIR) / "cmake"  # type: ignore[attr-defined]
+-        ).resolve()  # explicitly use the cmake provided by the cmake package
++        cmake_command = "cmake"
+         subprocess.run([cmake_command, *cmake_args], cwd=cmake_build_dir, check=True)
+         subprocess.run([cmake_command, "--build", ".", *build_args], cwd=cmake_build_dir, check=True)
+         subprocess.run([cmake_command, "--install", ".", *install_args], cwd=cmake_build_dir, check=True)
