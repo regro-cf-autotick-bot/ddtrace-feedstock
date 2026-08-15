@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "4.12.2"
+  version: 4.13.1
 
 package:
   name: ddtrace
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/d/ddtrace/ddtrace-${{ version }}.tar.gz
-  sha256: a3cfa19ebd6b5c0f7c70c16da29d7bf5f50c0ab014ad3dc77e9c06a424ca2cfb
+  sha256: c0fffc9ffd1a025f938a51d39d4ae879921c3f8f277e522a443c3a4fe09ec271
   patches:
     - patches/001-patch-out-cmake-build-dep.patch
     - patches/002-disable-ddwaf-download.patch
@@ -30,12 +30,12 @@ requirements:
     - cargo-bundle-licenses
     - if: build_platform != target_platform
       then:
-      - python
-      - cross-python_${{ target_platform }}
-      - setuptools-scm >=4
-      - setuptools-rust <2
-      - setuptools
-      - cython
+        - python
+        - cross-python_${{ target_platform }}
+        - setuptools-scm >=4
+        - setuptools-rust <2
+        - setuptools
+        - cython
     - ${{ compiler('c') }}
     - ${{ compiler('cxx') }}
     - ${{ compiler('rust') }}
@@ -54,12 +54,10 @@ requirements:
     - pip
   run:
     - python
-    - bytecode >=0.17.0
-    - envier >=0.6.1,<1.dev0
+    - bytecode >=0.15.1,<1
+    - envier >=0.6.1,<0.7.dev0
     - opentelemetry-api >=1,<2
     - wrapt >=1,!=2.2.0,<3
-    - libddwaf >=2.0,<2.1
-
 tests:
   - python:
       imports:
